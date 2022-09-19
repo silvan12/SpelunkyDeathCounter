@@ -28,7 +28,7 @@ namespace SpelunkyDeathCounter
         const int PROCESS_WM_READ = 0x0010;
         const int PROCESS_QUERY_INFORMATION = 0x0400;
 
-        const int MEMORY_OFFSET = 0x22DA8904;
+        const int MEMORY_OFFSET = 0x22DA6F4C;
 
         [DllImport("kernel32.dll")]
         public static extern IntPtr OpenProcess(int dwDesiredAccess, bool bInheritHandle, int dwProcessId);

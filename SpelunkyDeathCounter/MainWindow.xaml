@@ -12,5 +12,5 @@
             <MenuItem Click="ToggleCounterMode_Click" Header="Toggle counter mode" />
         </ContextMenu>
     </Window.ContextMenu>
-    <TextBlock x:Name="CounterBlock" TextAlignment="Left" Text="Deaths: 0" FontSize="90" VerticalAlignment="Top" />
+    <TextBlock x:Name="CounterBlock" TextAlignment="Left" Text="Deaths: " FontSize="90" VerticalAlignment="Top" />
 </Window>
