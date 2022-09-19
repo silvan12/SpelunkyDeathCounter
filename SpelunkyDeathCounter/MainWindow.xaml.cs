@@ -27,6 +27,7 @@ namespace SpelunkyDeathCounter
     {
         const int PROCESS_WM_READ = 0x0010;
         const int PROCESS_QUERY_INFORMATION = 0x0400;
+        // const int PROCESS_TERMINATE = 0x0001;
 
         const int MEMORY_OFFSET = 0x22DA6F4C;
 
@@ -35,6 +36,10 @@ namespace SpelunkyDeathCounter
 
         [DllImport("kernel32.dll")]
         public static extern bool ReadProcessMemory(IntPtr pHandle, IntPtr Address, byte[] Buffer, int Size, IntPtr NumberofBytesRead);
+
+        [DllImport("kernel32.dll")]
+        public static extern bool TerminateProcess(IntPtr hProcess, uint uExitCode);
+
 
         public static IntPtr spelunkyHandle = IntPtr.Zero;
         public static IntPtr spelunkyDeathAddress = IntPtr.Zero;
