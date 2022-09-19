@@ -38,8 +38,11 @@ namespace SpelunkyDeathCounter
 
         public static IntPtr spelunkyHandle = IntPtr.Zero;
         public static IntPtr spelunkyDeathAddress = IntPtr.Zero;
+        public static Thread spelunkyThread;
 
         static int offset = 0;
+
+        static bool isOpen = true;
 
         public MainWindow()
         {
@@ -71,17 +74,18 @@ namespace SpelunkyDeathCounter
             spelunkyHandle = handle;
             spelunkyDeathAddress = deathsAddress;
 
-            Thread thread = new(new ThreadStart(UpdateDeaths));
-            thread.Start();
+            spelunkyThread = new(new ThreadStart(UpdateDeaths));
+            spelunkyThread.Start();
         }
 
         private void UpdateDeaths()
         {
-            while (true)
+            while (isOpen)
             {
-                Dispatcher.InvokeAsync(() => {
-                    CounterBlock.Text = "Deaths: " +  (GetDeaths() - offset).ToString();
-                });
+                Dispatcher.InvokeAsync(() =>
+                    {
+                        CounterBlock.Text = "Deaths: " + (GetDeaths() - offset).ToString();
+                    });
                 Thread.Sleep(1000);
             }
         }
@@ -89,7 +93,7 @@ namespace SpelunkyDeathCounter
         public static int GetDeaths()
         {
             byte[] buffer = new byte[4];
-    
+
             ReadProcessMemory(spelunkyHandle, spelunkyDeathAddress, buffer, buffer.Length, IntPtr.Zero);
 
             return BitConverter.ToInt32(buffer);
@@ -105,10 +109,17 @@ namespace SpelunkyDeathCounter
             if (offset == 0)
             {
                 offset = GetDeaths();
-            } else
+            }
+            else
             {
                 offset = 0;
             }
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            isOpen = false;
+            spelunkyThread.Join();
         }
     }
 }
