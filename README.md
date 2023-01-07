@@ -1,3 +1,4 @@
+## this project is discontinued, the current version has a memory leak
 # SpelunkyDeathCounter
 Spelunky 2 death counter for OBS.  
 
